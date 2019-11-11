@@ -5,5 +5,5 @@
 2) 在vscode中打开一个ts文件  
 3) 运行kotlin-model-to-ts插件  
 # 快捷键
-windows: 先ctrl+k 然后ctrl+v
-mac: 先cmd+k 然后cmd+v（未测试）
+windows: 先ctrl+k 然后ctrl+v  
+mac: 先cmd+k 然后cmd+v（未测试）  
