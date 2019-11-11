@@ -9,6 +9,12 @@ export function activate(context: vscode.ExtensionContext) {
   // Use the console to output diagnostic information (console.log) and errors (console.error)
   // This line of code will only be executed once when your extension is activated
   console.log('Congratulations, your extension "kotlin-model-to-typescript" is now active!');
+  const typeDict: { regex: RegExp, replace: string }[] = [
+    { regex: /:\s+String/, replace: ': string' },
+    { regex: /:\s+Int/, replace: ': number' },
+    { regex: /:\s+Double/, replace: ': number' },
+    { regex: /:\s+Float/, replace: ': number' },
+  ];
 
   // The command has been defined in the package.json file
   // Now provide the implementation of the command with registerCommand
@@ -20,7 +26,6 @@ export function activate(context: vscode.ExtensionContext) {
     // if (vscode.window.activeTextEditor) {
     var kt = await vscode.env.clipboard.readText();
     kt = kt.replace(/\r?\n/g, ' ');
-    const typeMap: { [key: string]: string } = { 'String': 'string', 'Int': 'number', 'Double': 'number', 'Float': 'number' };
     if (!kt) {
       vscode.window.showWarningMessage('剪贴板无内容！');
     }
@@ -37,17 +42,20 @@ export function activate(context: vscode.ExtensionContext) {
         tsClass = `${tsClass} extends ${intefaces.join(', ')}`;
       }
       tsClass += '{\n';
+      let fields = '';
       if (vars) {
-        tsClass += vars.map(item => {
-          var result = item.replace(/var\s+/g, '')
-            .replace(/:/, '?:');
-          Object.keys(typeMap).forEach(key => {
-            result = result.replace(new RegExp(`:\s*${key}/`), `: ${typeMap[key]}`);
+        fields = vars.map(item => {
+          var result = '\t' + item.replace(/var\s+/g, '').replace(/:/, '?:');
+          typeDict.forEach(item => {
+            result = result.replace(item.regex, item.replace);
           });
           return result;
-        }).join('\n');
+        }).join(';\n');
       }
-      tsClass += "\n}";
+      if (fields.length > 0) {
+        fields += ';\n';
+      }
+      tsClass += fields + "}";
     } catch (e) {
       vscode.window.showWarningMessage('剪贴板内容未包含kotlin模型类！');
     }

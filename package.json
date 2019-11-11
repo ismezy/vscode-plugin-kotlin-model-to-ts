@@ -26,9 +26,9 @@
     ],
     "keybindings": [
       {
-        "command": "extension.sayHello",
-        "key": "ctrl+alt+v",
-        "mac": "cmd+alt+v",
+        "command": "extension.kotlinModelToTypescript",
+        "key": "ctrl+k ctrl+v",
+        "mac": "ctrl+k ctrl+v",
         "when": "editorTextFocus"
       }
     ]
