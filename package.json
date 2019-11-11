@@ -2,6 +2,10 @@
   "name": "kotlin-model-to-typescript",
   "displayName": "kotlin model to typescript",
   "description": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ismezy/vscode-plugin-kotlin-model-to-ts"
+  },
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.30.0"
